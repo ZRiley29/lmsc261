@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<body>
+    <canvas width="1920" height="1080" id="canvas" style="width: 1920px; height: 1080px;"></canvas>
+</body>
+
+<script>
+    const canvas = document.getElementById("canvas")
+    const ctx = canvas.getContext("2d")
+    const w = canvas.width, h = canvas.height
+
+    const dpr = window.devicePixelRatio || 1
+    canvas.width *= dpr, canvas.height *= dpr
+    ctx.scale(dpr, dpr)
+
+    let colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"]
+
+    for(let i = 0; i <= 900; i++){
+    let xPos = w * Math.random()
+    let yPos = h * Math.random()
+    let radius = 21
+
+    ctx.beginPath();
+    ctx.arc(xPos, yPos, radius * Math.random(), 0, Math.PI * 2, false)
+    if(yPos < 540){
+        ctx.fillStyle = "green"
+    }else{
+        ctx.fillStyle = "blue"
+    }
+    ctx.fill()
+    
+    }
+
+</script>

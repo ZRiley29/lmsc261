@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<body>
+    <canvas width="1920" height="1080" id="canvas" style="width: 1920px; height: 1080px;"></canvas>
+</body>
+
+<script>
+    const canvas = document.getElementById("canvas")
+    const ctx = canvas.getContext("2d")
+    const w = canvas.width, h = canvas.height
+
+    const dpr = window.devicePixelRatio || 1
+    canvas.width *= dpr, canvas.height *= dpr
+    ctx.scale(dpr, dpr)
+
+    const colors = [
+	"#EF998D",
+	"#F0AA75",
+	"#EEBB61",
+	"#E8776B",
+	"#E678B2",
+	"#C184D1",
+	"#77B1B6",
+	"#65D0A0",
+	"#66D69E"
+]
+
+    let numCircles = prompt("How many circles?")
+    let xPos = 960
+    let yPos = 540
+    const maxRadius = w * 0.45
+    const radiusIncr = maxRadius / numCircles
+
+    for(let i = 0; i <= numCircles; i++){
+        let radius = radiusIncr * (i + 1)
+        ctx.beginPath()
+        ctx.arc(xPos, yPos, radius, 0, Math.PI * 2, false)
+        ctx.strokeStyle = colors[i % 9]
+        ctx.lineWidth = 10
+        ctx.stroke()
+    }
+
+</script>

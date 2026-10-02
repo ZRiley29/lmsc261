@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<body>
+    <canvas width="1920" height="1080" id="canvas" style="width: 1920px; height: 1080px;"></canvas>
+</body>
+
+<script>
+    const canvas = document.getElementById("canvas")
+    const ctx = canvas.getContext("2d")
+    const w = canvas.width, h = canvas.height
+
+    const dpr = window.devicePixelRatio || 1
+    canvas.width *= dpr, canvas.height *= dpr
+    ctx.scale(dpr, dpr)
+
+    let colors = ["red", "orange", "yellow", "green", "blue", "indigo", "violet"]
+
+
+    for(let i = 0; i <= 6; i++){
+    let xPos = 1000
+    let yPos = 540
+    let radius = 200 + (i + 1) * 20
+
+    ctx.beginPath()
+    ctx.arc(300, 300, 20, 0, Math.PI * 2, false)
+    ctx.fillStyle = "blue"
+    ctx.fill()
+    }
+
+</script>
