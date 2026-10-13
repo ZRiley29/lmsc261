@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<body>
+    <canvas width="600" height="600" id="canvas" style="width: 600px; height: 600px;"></canvas>
+</body>
+
+<script>
+    const canvas = document.getElementById("canvas");
+    const ctx = canvas.getContext("2d");
+    const w = canvas.width, h = canvas.height;
+
+    const dpr = window.devicePixelRatio || 1;
+    canvas.width *= dpr, canvas.height *= dpr;
+    ctx.scale(dpr, dpr);
+
+    let sX = w/2
+    let sY = h/2
+
+    function drawCat(cx, cy){
+        ctx.strokeStyle = 'black'
+        ctx.lineWidth = 5
+        ctx.lineCap = "round"
+
+        ctx.beginPath()
+        ctx.moveTo(cx+50, cy-50)
+        ctx.lineTo(cx-50, cy-50)
+        ctx.lineTo(cx-80, cy-80)
+        ctx.lineTo(cx-80, cy+50)
+        ctx.lineTo(cx+80, cy+50)
+        ctx.lineTo(cx+80, cy-80)
+        ctx.lineTo(cx+50, cy-50)
+        ctx.stroke()
+
+        ctx.beginPath()
+        ctx.moveTo(cx+50, cy+10)
+        ctx.lineTo(cx+100, cy+10)
+        ctx.moveTo(cx+50, cy+10)
+        ctx.lineTo(cx+100, cy-10)
+        ctx.moveTo(cx-50, cy+10)
+        ctx.lineTo(cx-100, cy+10)
+        ctx.moveTo(cx-50, cy+10)
+        ctx.lineTo(cx-100, cy-10)
+        ctx.stroke()
+
+        ctx.beginPath()
+        ctx.moveTo(cx-20, cy+10)
+        ctx.lineTo(cx+20, cy+10)
+        ctx.moveTo(cx-20, cy+10)
+        ctx.lineTo(cx, cy+30)
+        ctx.moveTo(cx+20, cy+10)
+        ctx.lineTo(cx, cy+30)
+        ctx.stroke()
+
+        ctx.beginPath()
+        ctx.arc(cx-30, cy-18, 8, 0, Math.PI * 2, false)
+        ctx.stroke()
+        ctx.beginPath()
+        ctx.arc(cx+30, cy-18, 8, 0, Math.PI * 2, false)
+        ctx.stroke()
+
+    }
+
+    function draw(){
+        ctx.fillStyle = "grey"
+        ctx.fillRect(0, 0, w, h)
+
+        drawCat(sX, sY)
+    }
+
+    draw()
+
+</script>
