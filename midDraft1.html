@@ -1,19 +1,30 @@
 <!DOCTYPE html>
 <body>
-    <canvas width="600" height="600" id="canvas" style="width: 600px; height: 600px;"></canvas>
+    <canvas id="myCanvas"></canvas>
+    <script>
+        //canvas resize
+        const canvas = document.getElementById("myCanvas")
+        function resizeCanvas() {
+            canvas.width = window.innerWidth
+            canvas.height = window.innerHeight
+        }
+        window.addEventListener("resize", resizeCanvas)
+        resizeCanvas()
+    </script>
 </body>
 
 <script>
-    const canvas = document.getElementById("canvas");
+    
     const ctx = canvas.getContext("2d");
     const w = canvas.width, h = canvas.height;
 
     const dpr = window.devicePixelRatio || 1;
-    canvas.width *= dpr, canvas.height *= dpr;
-    ctx.scale(dpr, dpr);
+    
 
     let sX = w/2
     let sY = h/2
+
+    //drawing the head
 
     function drawCat(cx, cy){
         ctx.strokeStyle = 'black'
@@ -49,23 +60,136 @@
         ctx.moveTo(cx+20, cy+10)
         ctx.lineTo(cx, cy+30)
         ctx.stroke()
+    }
 
+    //drawing the eyes
+
+    function drawEyeClosed(cx, cy){
+        ctx.strokeStyle = "black"
+        ctx.beginPath()
+        ctx.moveTo(cx-35, cy-18)
+        ctx.lineTo(cx-25, cy-18)
+        ctx.moveTo(cx+35, cy-18)
+        ctx.lineTo(cx+25, cy-18)
+        ctx.stroke()
+    }
+
+    function drawEye1(cx, cy){
+        ctx.strokeStyle = "black"
         ctx.beginPath()
         ctx.arc(cx-30, cy-18, 8, 0, Math.PI * 2, false)
         ctx.stroke()
         ctx.beginPath()
         ctx.arc(cx+30, cy-18, 8, 0, Math.PI * 2, false)
         ctx.stroke()
-
     }
 
-    function draw(){
-        ctx.fillStyle = "grey"
-        ctx.fillRect(0, 0, w, h)
+    function drawStars(cx, cy){
+        ctx.beginPath()
+        ctx.moveTo(cx-38, cy-18)
+        ctx.lineTo(cx-46, cy-26)
+        ctx.lineTo(cx-38, cy-26)
+        ctx.lineTo(cx-30, cy-35) //center
+        ctx.lineTo(cx-22, cy-26)
+        ctx.lineTo(cx-14, cy-26)
+        ctx.lineTo(cx-22, cy-18)
+        ctx.lineTo(cx-14, cy-10)
+        ctx.lineTo(cx-22, cy-10)
+        ctx.lineTo(cx-30, cy-2) //center
+        ctx.lineTo(cx-38, cy-10)
+        ctx.lineTo(cx-45, cy-10)
+        ctx.lineTo(cx-38, cy-18)
+        ctx.stroke()
 
-        drawCat(sX, sY)
+        ctx.beginPath()
+        ctx.moveTo(cx+38, cy-18)
+        ctx.lineTo(cx+46, cy-26)
+        ctx.lineTo(cx+38, cy-26)
+        ctx.lineTo(cx+30, cy-35) //center
+        ctx.lineTo(cx+22, cy-26)
+        ctx.lineTo(cx+14, cy-26)
+        ctx.lineTo(cx+22, cy-18)
+        ctx.lineTo(cx+14, cy-10)
+        ctx.lineTo(cx+22, cy-10)
+        ctx.lineTo(cx+30, cy-2) //center
+        ctx.lineTo(cx+38, cy-10)
+        ctx.lineTo(cx+45, cy-10)
+        ctx.lineTo(cx+38, cy-18)
+        ctx.stroke()
     }
 
-    draw()
+    //animating the eyes
+
+    let frameCount = 0
+    let isFunctionOneActive = false
+
+    function blink(cx, cy){
+        //console.log(frameCount)
+        frameCount++
+
+        if(frameCount <= 120){
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            ctx.fillStyle = "lightblue"
+            ctx.fillRect(0, 0, w, h)
+            drawEye1(sX, sY)
+            drawCat(sX, sY)
+        }
+
+        if(frameCount > 120){
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            ctx.fillStyle = "lightblue"
+            ctx.fillRect(0, 0, w, h)
+            drawEyeClosed(sX, sY)
+            drawCat(sX, sY)
+        }
+        //adjust blink length
+        if(frameCount >= 140){
+            frameCount = 0
+        }
+        
+        requestAnimationFrame(blink)
+    }
+
+    function starsFlash(cx, cy){
+        frameCount++
+
+        if(frameCount <= 100){
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            ctx.fillStyle = "lightblue"
+            ctx.fillRect(0, 0, w, h)
+            ctx.strokeStyle = "yellow"
+            drawStars(sX, sY)
+            ctx.strokeStyle = "black"
+            drawCat(sX, sY)
+        }
+
+        if(frameCount > 100){
+            ctx.clearRect(0, 0, canvas.width, canvas.height)
+            ctx.fillStyle = "lightblue"
+            ctx.fillRect(0, 0, w, h)
+            ctx.strokeStyle = "red"
+            drawStars(sX, sY)
+            ctx.strokeStyle = "black"
+            drawCat(sX, sY)
+        }
+        if(frameCount >= 200){
+            frameCount = 0
+        }
+        
+        requestAnimationFrame(starsFlash)
+    }
+
+    //click state tracker
+    myCanvas.addEventListener("click", () => {
+        if (isFunctionOneActive){
+            blink()
+        }else{
+            starsFlash()
+        }
+        isFunctionOneActive = !isFunctionOneActive})
+    
+    blink()
+
+    
 
 </script>
